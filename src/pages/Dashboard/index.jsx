@@ -1,8 +1,8 @@
 import Banners from "./Banners";
 import { IoArrowForwardCircleOutline } from "react-icons/io5";
-import Tasks from "../../ul/Tasks";
+import Tasks from "../../ui/Tasks";
 import { useNavigate } from "react-router-dom";
-import MobileContainer from "../../ul/MobileContainer";
+import MobileContainer from "../../ui/MobileContainer";
 import DashboardHeader from "./DashboardHeader";
 
 function Dashboard() {

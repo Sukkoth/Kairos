@@ -1,4 +1,4 @@
-import MobileContainer from "../../ul/MobileContainer";
+import MobileContainer from "../../ui/MobileContainer";
 import Form from "../Register/Form";
 
 function Register() {

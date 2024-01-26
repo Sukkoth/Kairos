@@ -1,8 +1,8 @@
 import { BiCategory } from "react-icons/bi";
 import { FaCalendarDays } from "react-icons/fa6";
 
-import Header from "../../ul/PagesHeader";
-import MobileContainer from "../../ul/MobileContainer";
+import Header from "../../ui/PagesHeader";
+import MobileContainer from "../../ui/MobileContainer";
 
 function TaskDetails() {
   return (

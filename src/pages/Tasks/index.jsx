@@ -1,9 +1,9 @@
 import Calendar from "./Calendar";
-import Header from "../../ul/PagesHeader";
-import TasksList from "../../ul/Tasks";
+import Header from "../../ui/PagesHeader";
+import TasksList from "../../ui/Tasks";
 import { BsPlus } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
-import MobileContainer from "../../ul/MobileContainer";
+import MobileContainer from "../../ui/MobileContainer";
 
 function Tasks() {
   const navigate = useNavigate();

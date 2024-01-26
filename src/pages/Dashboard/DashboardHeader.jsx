@@ -1,5 +1,5 @@
 import { IoSettingsOutline } from "react-icons/io5";
-import Header from "../../ul/PagesHeader";
+import Header from "../../ui/PagesHeader";
 
 function DashboardHeader() {
   return (

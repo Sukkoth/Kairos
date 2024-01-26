@@ -1,5 +1,5 @@
-import MobileContainer from "../../ul/MobileContainer";
-import Header from "../../ul/PagesHeader";
+import MobileContainer from "../../ui/MobileContainer";
+import Header from "../../ui/PagesHeader";
 import FormContainer from "./FormContainer";
 
 function AddTask() {
