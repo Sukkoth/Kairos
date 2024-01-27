@@ -12,7 +12,7 @@ const matchTypeWithColor = {
   completed: "primary-green",
 };
 
-function Task({ id, type, title, startTime, endTime }) {
+function Task({ id, type, title, startDate, endDate }) {
   const [showMenu, setShowMenu] = useState(false);
   const divRef = useRef();
 
@@ -76,7 +76,8 @@ function Task({ id, type, title, startTime, endTime }) {
           <div className='flex gap-3 items-center mt-2 text-sm'>
             <BsClock />
             <p>
-              {startTime} - {endTime}
+              {new Date(JSON.parse(startDate)).toDateString()} -{" "}
+              {new Date(JSON.parse(endDate)).toDateString()}
             </p>
           </div>
         </div>
@@ -89,8 +90,8 @@ Task.propTypes = {
   id: PropTypes.number.isRequired,
   type: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
-  startTime: PropTypes.string.isRequired,
-  endTime: PropTypes.string.isRequired,
+  startDate: PropTypes.string.isRequired,
+  endDate: PropTypes.string.isRequired,
 };
 
 export default Task;

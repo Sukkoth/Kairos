@@ -1,6 +1,8 @@
+import { useSelector } from "react-redux";
 import Task from "./Task";
+import PropTypes from "prop-types";
 function Tasks() {
-  const tasks = [
+  const sampleTasks = [
     {
       id: 1,
       type: "ongoing",
@@ -72,14 +74,21 @@ function Tasks() {
       endTime: "18:00",
     },
   ];
+  const tasks = useSelector((state) => state.tasks.tasks);
 
   return (
     <ul className='mt-10 list-none space-y-3'>
-      {tasks.map((task) => (
-        <li key={task.title}>
-          <Task {...task} />
-        </li>
-      ))}
+      {tasks?.length ? (
+        tasks.map((task) => (
+          <li key={task.title}>
+            <Task {...task} />
+          </li>
+        ))
+      ) : (
+        <h1 className='text-2xl bg-cyan text-black py-4  rounded-2xl text-center'>
+          No tasks added yet 💁
+        </h1>
+      )}
     </ul>
   );
 }

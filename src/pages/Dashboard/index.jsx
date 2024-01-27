@@ -4,6 +4,7 @@ import Tasks from "../../ui/Tasks";
 import { useNavigate } from "react-router-dom";
 import MobileContainer from "../../ui/MobileContainer";
 import DashboardHeader from "./DashboardHeader";
+import { useSelector } from "react-redux";
 
 function Dashboard() {
   const navigate = useNavigate();

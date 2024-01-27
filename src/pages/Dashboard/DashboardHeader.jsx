@@ -1,7 +1,9 @@
 import { IoSettingsOutline } from "react-icons/io5";
 import Header from "../../ui/PagesHeader";
+import { useSelector } from "react-redux";
 
 function DashboardHeader() {
+  const user = useSelector((state) => state.auth.user);
   return (
     <>
       <Header
@@ -22,7 +24,9 @@ function DashboardHeader() {
 
       <h3 className='mt-10 '>
         <span className='text-gray-500'> Hi,</span> <br />{" "}
-        <span className='text-2xl'>Sukkoth Teklu</span>
+        <span className='text-2xl'>
+          {user.firstName} {user.lastName}
+        </span>
       </h3>
     </>
   );

@@ -13,7 +13,7 @@ const authSlice = createSlice({
     loginUser: (state, action) => {
       state.error = null;
       const users = JSON.parse(localStorage.getItem("users"));
-      if (!users.length > 0) {
+      if (!users?.length > 0) {
         state.error = { message: "Incorrect Credentials" };
         return;
       }
@@ -30,9 +30,9 @@ const authSlice = createSlice({
     },
     registerUser: (state, action) => {
       const users = JSON.parse(localStorage.getItem("users")) || [];
-
-      users.push(action.payload);
-      state.user = action.payload;
+      const id = "usr" + new Date().toISOString();
+      users.push({ ...action.payload, id });
+      state.user = { ...action.payload, id };
       localStorage.setItem("users", JSON.stringify(users));
     },
     setLoading: (state, action) => {

@@ -1,9 +1,16 @@
 import PropTypes from "prop-types";
 import Calendar from "../Tasks/Calendar";
 import FormGroup from "../Login/FormGroup";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import AddTaskSchema from "../../utils/AddTaskSchema";
+import { addTask } from "../../redux/features/tasks/taskSlice";
 
 function FormContainer() {
+  const user = useSelector((state) => state.auth.user);
   const categories = [
     {
       id: 1,
@@ -59,16 +66,79 @@ function FormContainer() {
     });
   }
 
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(AddTaskSchema),
+  });
+
+  useEffect(() => {
+    setValue("categories", selectedCategories);
+  }, [selectedCategories, setValue]);
+
+  const onSubmitHandler = (data) => {
+    const taskData = {
+      ...data,
+      endDate: JSON.stringify(data.endDate),
+      startDate: JSON.stringify(data.startDate),
+      userId: user.id,
+    };
+    dispatch(addTask(taskData));
+  };
+
   return (
-    <form>
+    <form onSubmit={handleSubmit(onSubmitHandler)}>
       <Calendar />
+      <FormGroup>
+        <label htmlFor='startDate'>Start Date</label>
+        <input
+          name='startDate'
+          id='startDate'
+          type='datetime-local'
+          className='h-14 bg-input-bg px-4 rounded-xl placeholder:text-stone-500 focus:outline-stone-800 active:outline-stone-800 outline-none'
+          {...register("startDate")}
+        />
+        {errors.startDate?.message && (
+          <p className='text-sm text-red-300 font-normal'>
+            {errors.startDate?.message}
+          </p>
+        )}
+      </FormGroup>
+      <FormGroup>
+        <label htmlFor='endDate'>End Date</label>
+        <input
+          name='endDate'
+          id='endDate'
+          type='datetime-local'
+          className='h-14 bg-input-bg px-4 rounded-xl placeholder:text-stone-500 focus:outline-stone-800 active:outline-stone-800 outline-none'
+          {...register("endDate")}
+        />
+        {errors.endDate?.message && (
+          <p className='text-sm text-red-300 font-normal'>
+            {errors.endDate?.message}
+          </p>
+        )}
+      </FormGroup>
       <FormGroup>
         <label htmlFor='title'>Title</label>
         <input
           type='text'
+          name='title'
+          id='title'
           placeholder='Landing Page design'
           className='h-14 bg-input-bg px-4 rounded-xl placeholder:text-stone-500 focus:outline-stone-800 active:outline-stone-800 outline-none'
+          {...register("title")}
         />
+        {errors.title?.message && (
+          <p className='text-sm text-red-300 font-normal'>
+            {errors.title?.message}
+          </p>
+        )}
       </FormGroup>
       <FormGroup>
         <label htmlFor='description'>Description</label>
@@ -77,7 +147,13 @@ function FormContainer() {
           name='description'
           id='description'
           placeholder='Description here. . .'
+          {...register("description")}
         ></textarea>
+        {errors.description?.message && (
+          <p className='text-sm text-red-300 font-normal'>
+            {errors.description?.message}
+          </p>
+        )}
       </FormGroup>
 
       <FormGroup>
@@ -92,13 +168,22 @@ function FormContainer() {
             />
           ))}
         </div>
+        {errors.categories?.message && (
+          <p className='text-sm text-red-300 font-normal'>
+            {errors.categories?.message}
+          </p>
+        )}
       </FormGroup>
+      <button
+        className={`w-full ${"bg-primary-green"} py-4 rounded-xl mt-12 text-black`}
+      >
+        Add Task
+      </button>
     </form>
   );
 }
 
 function CategoryItem({ name, selected, handleCategory, id }) {
-  //   console.log("name: ", id, selected);
   return (
     <div
       onClick={() => handleCategory(id)}
