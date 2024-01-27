@@ -89,6 +89,9 @@ function FormContainer() {
       userId: user.id,
     };
     dispatch(addTask(taskData));
+    setTimeout(() => {
+      navigate("/tasks");
+    }, 1000);
   };
 
   return (

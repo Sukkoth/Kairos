@@ -4,6 +4,8 @@ import { useState, useRef, useEffect, useCallback } from "react";
 import { BsClock } from "react-icons/bs";
 import { SlOptionsVertical } from "react-icons/sl";
 import { Link } from "react-router-dom";
+import { deleteTask } from "../../redux/features/tasks/taskSlice";
+import { useDispatch } from "react-redux";
 
 const matchTypeWithColor = {
   ongoing: "cyan",
@@ -13,6 +15,7 @@ const matchTypeWithColor = {
 };
 
 function Task({ id, type, title, startDate, endDate }) {
+  const dispatch = useDispatch();
   const [showMenu, setShowMenu] = useState(false);
   const divRef = useRef();
 
@@ -53,12 +56,15 @@ function Task({ id, type, title, startDate, endDate }) {
           >
             <ul className='space-y-1'>
               <li className='cursor-pointer hover:bg-stone-800 w-full py-1 px-3 rounded-lg'>
-                <Link to={`/tasks/123456`}> View Details</Link>
+                <Link to={`/tasks/${id}`}> View Details</Link>
               </li>
               <li className='cursor-pointer hover:bg-stone-800 w-full py-1 px-3 rounded-lg'>
                 <Link>Edit</Link>
               </li>
-              <li className='cursor-pointer hover:bg-stone-800 w-full py-1 px-3 rounded-lg'>
+              <li
+                className='cursor-pointer hover:bg-stone-800 w-full py-1 px-3 rounded-lg'
+                onClick={() => dispatch(deleteTask(id))}
+              >
                 Delete
               </li>
             </ul>
@@ -87,7 +93,7 @@ function Task({ id, type, title, startDate, endDate }) {
 }
 
 Task.propTypes = {
-  id: PropTypes.number.isRequired,
+  id: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   startDate: PropTypes.string.isRequired,

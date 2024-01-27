@@ -1,7 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
+import LocalStorage from "../../../utils/localStorage";
 
 const initialState = {
-  user: {},
+  user: LocalStorage.get("auth"),
   loading: false,
   error: null,
 };
@@ -12,7 +13,7 @@ const authSlice = createSlice({
   reducers: {
     loginUser: (state, action) => {
       state.error = null;
-      const users = JSON.parse(localStorage.getItem("users"));
+      const users = LocalStorage.get("users");
       if (!users?.length > 0) {
         state.error = { message: "Incorrect Credentials" };
         return;
@@ -24,16 +25,17 @@ const authSlice = createSlice({
       );
       if (foundUser) {
         state.user = foundUser;
+        LocalStorage.set("auth", foundUser);
       } else {
         state.error = { message: "Incorrect Credentials" };
       }
     },
     registerUser: (state, action) => {
-      const users = JSON.parse(localStorage.getItem("users")) || [];
+      const users = LocalStorage.get("users") || [];
       const id = "usr" + new Date().toISOString();
       users.push({ ...action.payload, id });
       state.user = { ...action.payload, id };
-      localStorage.setItem("users", JSON.stringify(users));
+      LocalStorage.set("users", users);
     },
     setLoading: (state, action) => {
       state.loading = action.payload;
@@ -41,6 +43,11 @@ const authSlice = createSlice({
 
     resetErrors: (state) => {
       state.error = null;
+    },
+
+    logOutUser: (state) => {
+      LocalStorage.remove("auth");
+      state.user = null;
     },
   },
 });

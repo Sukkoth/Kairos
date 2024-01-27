@@ -1,6 +1,9 @@
 import { IoSettingsOutline } from "react-icons/io5";
 import Header from "../../ui/PagesHeader";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import { logOutUser } from "../../redux/features/Auth";
 
 function DashboardHeader() {
   const user = useSelector((state) => state.auth.user);
@@ -13,13 +16,9 @@ function DashboardHeader() {
             src='/images/avatar.jpg'
             alt=''
             className='size-10 rounded-full'
-            onClick={() => {
-              localStorage.removeItem("user");
-              location.href = "/";
-            }}
           />
         }
-        rightIcon={<IoSettingsOutline className='text-2xl' />}
+        rightIcon={<RightIcon />}
       />
 
       <h3 className='mt-10 '>
@@ -32,4 +31,29 @@ function DashboardHeader() {
   );
 }
 
+function RightIcon() {
+  const dispatch = useDispatch();
+  function handleLogout() {
+    dispatch(logOutUser());
+  }
+  const [showMenu, setShowMenu] = useState(false);
+  return (
+    <div className='relative' onClick={() => setShowMenu((prev) => !prev)}>
+      <IoSettingsOutline className='text-2xl' />
+      {showMenu && (
+        <div className='text-sm absolute left-[-6rem] top-10 bg-stone-800 px-3 py-2 rounded-xl space-y-2 flex flex-col'>
+          <Link
+            className='hover:bg-stone-700 px-7 py-1 rounded-xl'
+            onClick={handleLogout}
+          >
+            Logout
+          </Link>
+          <Link className='hover:bg-stone-700 px-7 py-1 rounded-xl'>
+            Settings
+          </Link>
+        </div>
+      )}
+    </div>
+  );
+}
 export default DashboardHeader;

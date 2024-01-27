@@ -5,7 +5,10 @@ function MobileContainer({ children }) {
 }
 
 MobileContainer.propTypes = {
-  children: PropTypes.element || PropTypes.arrayOf(PropTypes.element),
+  children: PropTypes.oneOfType([
+    PropTypes.element,
+    PropTypes.arrayOf(PropTypes.element),
+  ]).isRequired,
 };
 
 export default MobileContainer;
