@@ -5,6 +5,7 @@ import Tasks from "./pages/Tasks";
 import TaskDetails from "./pages/TaskDetails";
 import AddTask from "./pages/AddTask";
 import Register from "./pages/Register";
+import AuthOutlet from "./ui/AuthOutlet";
 
 function App() {
   return (
@@ -12,10 +13,12 @@ function App() {
       <Routes>
         <Route path='/login' element={<Login />} />
         <Route path='/register' element={<Register />} />
-        <Route path='/' element={<Dashboard />} />
-        <Route path='/tasks' element={<Tasks />} />
-        <Route path='/tasks/:taskId' element={<TaskDetails />} />
-        <Route path='/add' element={<AddTask />} />
+        <Route element={<AuthOutlet />}>
+          <Route path='/' element={<Dashboard />} />
+          <Route path='/tasks' element={<Tasks />} />
+          <Route path='/tasks/:taskId' element={<TaskDetails />} />
+          <Route path='/add' element={<AddTask />} />
+        </Route>
       </Routes>
     </main>
   );

@@ -40,15 +40,16 @@ function Task({ id, type, title, startTime, endTime }) {
         className={`w-2 bg-${matchTypeWithColor[type]} min-h-full rounded-l-2xl`}
       ></div>
       <div className='relative w-full'>
-        <SlOptionsVertical
-          id={`toggleMenu${id}`}
-          className='absolute right-5 top-5 cursor-pointer hover:text-stone-400'
+        <div
+          className='p-3 absolute right-5 top-5 cursor-pointer hover:text-stone-400 text-lg'
           onClick={() => setShowMenu((prev) => !prev)}
-        />
+        >
+          <SlOptionsVertical id={`toggleMenu${id}`} className='' />
+        </div>
         {showMenu && (
           <div
             ref={divRef}
-            className='absolute right-6 top-10 text-sm bg-black py-3 font-normal rounded-lg px-3 select-none z-20'
+            className='absolute right-6 top-10  bg-black py-3 font-normal rounded-lg px-3 select-none z-20'
           >
             <ul className='space-y-1'>
               <li className='cursor-pointer hover:bg-stone-800 w-full py-1 px-3 rounded-lg'>

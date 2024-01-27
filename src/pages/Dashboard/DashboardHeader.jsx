@@ -5,12 +5,16 @@ function DashboardHeader() {
   return (
     <>
       <Header
-        title='Taskade 🎉'
+        title='Kairos - Task Manager 🎉'
         leftIcon={
           <img
             src='/images/avatar.jpg'
             alt=''
             className='size-10 rounded-full'
+            onClick={() => {
+              localStorage.removeItem("user");
+              location.href = "/";
+            }}
           />
         }
         rightIcon={<IoSettingsOutline className='text-2xl' />}

@@ -5,7 +5,7 @@ function MobileContainer({ children }) {
 }
 
 MobileContainer.propTypes = {
-  children: PropTypes.arrayOf(PropTypes.object) || PropTypes.object,
+  children: PropTypes.element || PropTypes.arrayOf(PropTypes.element),
 };
 
 export default MobileContainer;
