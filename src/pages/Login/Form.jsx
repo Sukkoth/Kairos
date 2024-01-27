@@ -2,7 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import FormGroup from "./FormGroup";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { loginUser, setLoading } from "../../redux/features/Auth";
+import { loginUser, resetErrors, setLoading } from "../../redux/features/Auth";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import LoginSchema from "../../utils/yupSchemas/LoginSchema";
@@ -14,18 +14,21 @@ function Form() {
     register,
     handleSubmit,
     formState: { errors },
-    reset,
   } = useForm({
     resolver: yupResolver(LoginSchema),
   });
-  const { user, loading } = useSelector((state) => state.auth);
+  const {
+    user,
+    loading,
+    error: loginError,
+  } = useSelector((state) => state.auth);
 
   const onSubmitHandler = (data) => {
+    dispatch(resetErrors());
     dispatch(setLoading(true));
     setTimeout(() => {
       dispatch(loginUser(data));
       dispatch(setLoading(false));
-      reset();
     }, 2000);
   };
 
@@ -37,6 +40,11 @@ function Form() {
 
   return (
     <form className='text-start' onSubmit={handleSubmit(onSubmitHandler)}>
+      {loginError?.message && (
+        <p className='font-normal mb-[-10px] mt-5 text-red-300'>
+          {loginError?.message}
+        </p>
+      )}
       <FormGroup>
         <label htmlFor='email'>E-mail</label>
         <input
@@ -47,7 +55,7 @@ function Form() {
           placeholder='Enter your email'
           {...register("email")}
         />
-        <p className='text-sm text-red-500 font-normal'>
+        <p className='text-sm text-red-300 font-normal'>
           {errors.email?.message}
         </p>
       </FormGroup>
@@ -61,7 +69,7 @@ function Form() {
           placeholder='Your Password'
           {...register("password")}
         />
-        <p className='text-sm text-red-500 font-normal'>
+        <p className='text-sm text-red-300 font-normal'>
           {errors.password?.message}
         </p>
       </FormGroup>

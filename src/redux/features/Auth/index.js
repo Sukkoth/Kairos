@@ -11,14 +11,40 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     loginUser: (state, action) => {
+      state.error = null;
+      const users = JSON.parse(localStorage.getItem("users"));
+      if (!users.length > 0) {
+        state.error = { message: "Incorrect Credentials" };
+        return;
+      }
+      const foundUser = users.find(
+        (user) =>
+          user.email === action.payload.email &&
+          user.password === action.payload.password
+      );
+      if (foundUser) {
+        state.user = foundUser;
+      } else {
+        state.error = { message: "Incorrect Credentials" };
+      }
+    },
+    registerUser: (state, action) => {
+      const users = JSON.parse(localStorage.getItem("users")) || [];
+
+      users.push(action.payload);
       state.user = action.payload;
-      localStorage.setItem("user", action.payload);
+      localStorage.setItem("users", JSON.stringify(users));
     },
     setLoading: (state, action) => {
       state.loading = action.payload;
     },
+
+    resetErrors: (state) => {
+      state.error = null;
+    },
   },
 });
 
-export const { loginUser, logOutUser, setLoading } = authSlice.actions;
+export const { loginUser, logOutUser, setLoading, resetErrors, registerUser } =
+  authSlice.actions;
 export const authReducer = authSlice.reducer;
